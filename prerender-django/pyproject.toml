@@ -13,7 +13,7 @@ keywords = ["django", "prerender", "prerender.io", "seo", "middleware"]
 dependencies = []
 
 [project.urls]
-Repository = "https://github.com/prerender/community-integrations"
+Repository = "https://github.com/prerender/integrations"
 
 [project.optional-dependencies]
 dev = [
