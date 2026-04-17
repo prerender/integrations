@@ -4,10 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "prerender-django"
-version = "1.0.0"
+version = "1.0.1"
 description = "Django middleware for prerendering JavaScript-rendered pages for SEO via Prerender.io"
 authors = [{ name = "Prerender.io" }]
-license = { text = "MIT" }
+license = "MIT"
+readme = "README.md"
 requires-python = ">=3.10"
 keywords = ["django", "prerender", "prerender.io", "seo", "middleware"]
 dependencies = []
