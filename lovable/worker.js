@@ -93,9 +93,22 @@ async function handleRequest(request, env) {
 
   if (isRedirect(resp.status)) {
     const loc = resp.headers.get("Location") || "";
-    const newLoc = loc.replaceAll(upstreamBase.hostname, PUBLIC_HOST).replace(/^http:\/\//i, "https://");
     const newHeaders = new Headers(resp.headers);
-    if (loc) newHeaders.set("Location", newLoc);
+    if (loc) {
+      // Only rewrite Location if it points back to the upstream.
+      // External redirects (e.g. OAuth providers) must pass through unchanged —
+      // rewriting them would corrupt the redirect_uri param and break OAuth.
+      let newLoc = loc;
+      try {
+        const locUrl = new URL(loc);
+        if (locUrl.hostname === upstreamBase.hostname) {
+          newLoc = loc.replace(/^http:\/\//i, "https://").replaceAll(upstreamBase.hostname, PUBLIC_HOST);
+        }
+      } catch {
+        newLoc = loc.replaceAll(upstreamBase.hostname, PUBLIC_HOST);
+      }
+      newHeaders.set("Location", newLoc);
+    }
     return new Response(resp.body, { status: resp.status, headers: newHeaders });
   }
 
