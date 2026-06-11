@@ -14,7 +14,8 @@ const IGNORE_EXTENSIONS = [
   ".js", ".css", ".xml", ".less", ".png", ".jpg", ".jpeg", ".gif", ".pdf", ".doc", ".txt", ".ico",
   ".rss", ".zip", ".mp3", ".rar", ".exe", ".wmv", ".avi", ".ppt", ".mpg", ".mpeg", ".tif", ".wav",
   ".mov", ".psd", ".ai", ".xls", ".mp4", ".m4a", ".swf", ".dat", ".dmg", ".iso", ".flv", ".m4v",
-  ".torrent", ".woff", ".ttf", ".svg", ".webmanifest",
+  ".torrent", ".woff", ".woff2", ".ttf", ".otf", ".eot", ".svg", ".webp",
+  ".avif", ".webmanifest",
 ];
 
 function isRedirect(status) {

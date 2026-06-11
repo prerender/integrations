@@ -20,17 +20,18 @@ export async function proxy(request: NextRequest) {
     ".doc", ".txt", ".ico", ".rss", ".zip", ".mp3", ".rar", ".exe", ".wmv",
     ".avi", ".ppt", ".mpg", ".mpeg", ".tif", ".wav", ".mov", ".psd", ".ai",
     ".xls", ".mp4", ".m4a", ".swf", ".dat", ".dmg", ".iso", ".flv", ".m4v",
-    ".torrent", ".woff", ".ttf", ".svg", ".webmanifest",
+    ".torrent", ".woff", ".woff2", ".ttf", ".otf", ".eot", ".svg", ".webp",
+    ".avif", ".webmanifest",
   ];
 
   const isBot = !!userAgent && bots.some((bot) => userAgent.toLowerCase().includes(bot.toLowerCase()));
   const isPrerender = request.headers.get("X-Prerender");
   const pathname = new URL(request.url).pathname;
-  const extension = pathname.slice(((pathname.lastIndexOf(".") - 1) >>> 0) + 1);
+  // slice() already yields the extension WITH its leading dot (e.g. ".woff"), or "" for dotless paths
+  const extension = pathname.slice(((pathname.lastIndexOf(".") - 1) >>> 0) + 1).toLowerCase();
   const hasExtension = extension.length > 0;
-  const dottedExt = hasExtension ? `.${extension}` : "";
 
-  if (isPrerender || !isBot || (hasExtension && IGNORE_EXTENSIONS.includes(dottedExt))) {
+  if (isPrerender || !isBot || (hasExtension && IGNORE_EXTENSIONS.includes(extension))) {
     return NextResponse.next();
   }
 
