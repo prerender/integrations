@@ -18,15 +18,16 @@ export async function middleware(request) {
   const IGNORE_EXTENSIONS = [
     ".js", ".css", ".xml", ".less", ".png", ".jpg", ".jpeg", ".gif", ".pdf",
     ".doc", ".txt", ".ico", ".rss", ".zip", ".mp3", ".rar", ".exe", ".wmv",
-    ".doc", ".avi", ".ppt", ".mpg", ".mpeg", ".tif", ".wav", ".mov", ".psd",
+    ".avi", ".ppt", ".mpg", ".mpeg", ".tif", ".wav", ".mov", ".psd",
     ".ai", ".xls", ".mp4", ".m4a", ".swf", ".dat", ".dmg", ".iso", ".flv",
-    ".m4v", ".torrent", ".woff", ".ttf", ".svg", ".webmanifest",
+    ".m4v", ".torrent", ".woff", ".woff2", ".ttf", ".otf", ".eot", ".svg",
+    ".webp", ".avif", ".webmanifest",
   ];
 
   const isBot = userAgent && bots.some((bot) => userAgent.toLowerCase().includes(bot));
   const isPrerender = request.headers.get("X-Prerender");
   const pathname = new URL(request.url).pathname;
-  const extension = pathname.slice(((pathname.lastIndexOf(".") - 1) >>> 0) + 1);
+  const extension = pathname.slice(((pathname.lastIndexOf(".") - 1) >>> 0) + 1).toLowerCase();
 
   if (isPrerender || !isBot || (extension.length && IGNORE_EXTENSIONS.includes(extension))) {
     return NextResponse.next();
